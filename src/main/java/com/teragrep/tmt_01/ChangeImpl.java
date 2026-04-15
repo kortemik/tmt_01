@@ -45,39 +45,58 @@
  */
 package com.teragrep.tmt_01;
 
-import org.junit.jupiter.api.Test;
-
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+public class ChangeImpl implements Change {
 
-public class TimePartitionedMonoidTreeAggregationTest {
+    private final long version;
+    private final RistrettoPoint pointDelta;
+    private final ZonedDateTime zonedDateTime;
 
-    @Test
-    void testRootAggregation() {
+    public ChangeImpl(final long version, final Instant targetHour, final RistrettoPoint pointDelta) {
+        this(version, pointDelta, targetHour.atZone(ZoneOffset.UTC));
+    }
 
-        TestPointFactory testPointFactory = new TestPointFactory();
+    private ChangeImpl(final long version, final RistrettoPoint pointDelta, final ZonedDateTime zonedDateTime) {
+        this.version = version;
+        this.pointDelta = pointDelta;
+        this.zonedDateTime = zonedDateTime;
+    }
 
-        RistrettoPoint payload = testPointFactory.deterministicPoint(1);
+    @Override
+    public long version() {
+        return version;
+    }
 
-        TimePartitionedMonoidTree tree = new TimePartitionedMonoidTreeImpl();
-        tree.processChange(new ChangeImpl(1L, Instant.EPOCH, payload));
+    @Override
+    public RistrettoPoint pointDelta() {
+        return pointDelta;
+    }
 
-        // only one value in, root should be the same as payload
-        assertArrayEquals(payload.toBytes(), tree.root().point().toBytes());
+    @Override
+    public int yearIndex() {
+        return zonedDateTime.getYear();
+    }
 
-        RistrettoPoint otherPayload = testPointFactory.deterministicPoint(2);
+    @Override
+    public int monthIndex() {
+        return zonedDateTime.getMonthValue() - 1; // 1-12 mapped to 0-11
+    }
 
-        tree.processChange(new ChangeImpl(2L, Instant.EPOCH.plus(1, ChronoUnit.DAYS), otherPayload));
+    @Override
+    public int dayIndex() {
+        return zonedDateTime.getDayOfMonth() - 1; // 1-31 mapped to 0-30
+    }
 
-        RistrettoPoint summarizedPayload = payload.add(otherPayload);
+    @Override
+    public int hourIndex() {
+        return zonedDateTime.getHour(); // 0-23
+    }
 
-        // if seed 0, it results in zeroPoint and the test case will not work so this verifies that seed 0 was not used
-        assertFalse(Arrays.equals(otherPayload.toBytes(), summarizedPayload.toBytes()));
-
-        assertArrayEquals(summarizedPayload.toBytes(), tree.root().point().toBytes());
+    @Override
+    public ZonedDateTime zonedDateTime() {
+        return zonedDateTime;
     }
 }

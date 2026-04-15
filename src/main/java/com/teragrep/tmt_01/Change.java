@@ -45,51 +45,22 @@
  */
 package com.teragrep.tmt_01;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-public class Change {
+public interface Change {
 
-    private final long version;
-    private final RistrettoPoint pointDelta;
-    private final ZonedDateTime zonedDateTime;
+    public abstract long version();
 
-    public Change(final long version, final Instant targetHour, final RistrettoPoint pointDelta) {
-        this(version, pointDelta, targetHour.atZone(ZoneOffset.UTC));
-    }
+    public abstract RistrettoPoint pointDelta();
 
-    private Change(final long version, final RistrettoPoint pointDelta, final ZonedDateTime zonedDateTime) {
-        this.version = version;
-        this.pointDelta = pointDelta;
-        this.zonedDateTime = zonedDateTime;
-    }
+    public abstract int yearIndex();
 
-    public long version() {
-        return version;
-    }
+    public abstract int monthIndex();
 
-    public RistrettoPoint pointDelta() {
-        return pointDelta;
-    }
+    public abstract int dayIndex();
 
-    public int yearIndex() {
-        return zonedDateTime.getYear();
-    }
+    public abstract int hourIndex();
 
-    public int monthIndex() {
-        return zonedDateTime.getMonthValue() - 1; // 1-12 mapped to 0-11
-    }
+    public abstract ZonedDateTime zonedDateTime();
 
-    public int dayIndex() {
-        return zonedDateTime.getDayOfMonth() - 1; // 1-31 mapped to 0-30
-    }
-
-    public int hourIndex() {
-        return zonedDateTime.getHour(); // 0-23
-    }
-
-    public ZonedDateTime zonedDateTime() {
-        return zonedDateTime;
-    }
 }
