@@ -52,44 +52,44 @@ import java.time.ZonedDateTime;
 public class Change {
 
     private final long version;
-    private final RistrettoPoint payload;
-    private final ZonedDateTime zdt;
+    private final RistrettoPoint pointDelta;
+    private final ZonedDateTime zonedDateTime;
 
-    public Change(final long version, final Instant targetHour, final RistrettoPoint payload) {
-        this(version, payload, targetHour.atZone(ZoneOffset.UTC));
+    public Change(final long version, final Instant targetHour, final RistrettoPoint pointDelta) {
+        this(version, pointDelta, targetHour.atZone(ZoneOffset.UTC));
     }
 
-    private Change(final long version, final RistrettoPoint payload, final ZonedDateTime zdt) {
+    private Change(final long version, final RistrettoPoint pointDelta, final ZonedDateTime zonedDateTime) {
         this.version = version;
-        this.payload = payload;
-        this.zdt = zdt;
+        this.pointDelta = pointDelta;
+        this.zonedDateTime = zonedDateTime;
     }
 
     public long version() {
         return version;
     }
 
-    public RistrettoPoint getPayload() {
-        return payload;
+    public RistrettoPoint pointDelta() {
+        return pointDelta;
     }
 
     public int yearIndex() {
-        return zdt.getYear();
+        return zonedDateTime.getYear();
     }
 
     public int monthIndex() {
-        return zdt.getMonthValue() - 1; // 1-12 mapped to 0-11
+        return zonedDateTime.getMonthValue() - 1; // 1-12 mapped to 0-11
     }
 
     public int dayIndex() {
-        return zdt.getDayOfMonth() - 1; // 1-31 mapped to 0-30
+        return zonedDateTime.getDayOfMonth() - 1; // 1-31 mapped to 0-30
     }
 
     public int hourIndex() {
-        return zdt.getHour(); // 0-23
+        return zonedDateTime.getHour(); // 0-23
     }
 
-    public ZonedDateTime getTargetHour() {
-        return zdt;
+    public ZonedDateTime zonedDateTime() {
+        return zonedDateTime;
     }
 }

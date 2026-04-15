@@ -72,7 +72,7 @@ public class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoidTree 
             final Root oldRoot = activeRoot.get();
 
             // check if change in WAL is already applied
-            if (change.version() <= oldRoot.getMaxVersion()) {
+            if (change.version() <= oldRoot.version()) {
                 rv = oldRoot;
                 break;
             }

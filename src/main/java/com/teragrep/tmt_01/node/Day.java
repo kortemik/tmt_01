@@ -69,17 +69,17 @@ public class Day implements Node<Day> {
         final Hour[] newHours = new Hour[hoursPerDay];
         System.arraycopy(this.hours, 0, newHours, 0, hoursPerDay);
         final int hourIndex = change.hourIndex();
-        newHours[hourIndex] = new Hour(hours[hourIndex].getAggregatedPoint().add(change.getPayload()));
+        newHours[hourIndex] = new Hour(hours[hourIndex].point().add(change.pointDelta()));
 
-        return new Day(newHours, aggregatedPoint.add(change.getPayload()));
+        return new Day(newHours, aggregatedPoint.add(change.pointDelta()));
     }
 
     @Override
-    public RistrettoPoint getAggregatedPoint() {
+    public RistrettoPoint point() {
         return aggregatedPoint;
     }
 
-    public Hour getHour(final int index) {
+    public Hour hour(final int index) {
         return hours[index];
     }
 

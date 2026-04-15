@@ -52,7 +52,7 @@ public class Root implements Node<Root> {
 
     private final RistrettoPoint zeroPoint;
 
-    private final long maxVersion;
+    private final long version;
 
     private final int[] yearKeys;
     private final Year[] yearValues;
@@ -66,22 +66,22 @@ public class Root implements Node<Root> {
             final int[] yearKeys,
             final Year[] yearValues,
             final RistrettoPoint aggregatedPoint,
-            final long maxVersion,
+            final long version,
             final RistrettoPoint zeroPoint
     ) {
         this.yearKeys = yearKeys;
         this.yearValues = yearValues;
         this.aggregatedPoint = aggregatedPoint;
-        this.maxVersion = maxVersion;
+        this.version = version;
         this.zeroPoint = zeroPoint;
     }
 
-    public long getMaxVersion() {
-        return maxVersion;
+    public long version() {
+        return version;
     }
 
     @Override
-    public RistrettoPoint getAggregatedPoint() {
+    public RistrettoPoint point() {
         return aggregatedPoint;
     }
 
@@ -105,7 +105,7 @@ public class Root implements Node<Root> {
             final Year[] newYears = new Year[yearValues.length];
             System.arraycopy(yearValues, 0, newYears, 0, yearValues.length);
             newYears[insertPos] = yearValues[insertPos].applyChange(change);
-            rv = new Root(yearKeys, newYears, aggregatedPoint.add(change.getPayload()), change.version(), zeroPoint);
+            rv = new Root(yearKeys, newYears, aggregatedPoint.add(change.pointDelta()), change.version(), zeroPoint);
         }
         else {
             // new year to a new array
@@ -121,7 +121,7 @@ public class Root implements Node<Root> {
             rv = new Root(
                     newYearKeys,
                     newYearValues,
-                    aggregatedPoint.add(change.getPayload()),
+                    aggregatedPoint.add(change.pointDelta()),
                     change.version(),
                     zeroPoint
             );
@@ -130,7 +130,7 @@ public class Root implements Node<Root> {
         return rv;
     }
 
-    public Year getYear(final int index) {
+    public Year year(final int index) {
         for (int i = 0; i < yearKeys.length; i++) {
             if (yearKeys[i] == index) {
                 return yearValues[i];
@@ -139,7 +139,7 @@ public class Root implements Node<Root> {
         throw new IllegalArgumentException("Year index " + index + " not found");
     }
 
-    public int[] getYearKeys() {
+    public int[] yearKeys() {
         return yearKeys.clone();
     }
 }

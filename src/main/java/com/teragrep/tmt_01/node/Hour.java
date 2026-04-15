@@ -57,7 +57,7 @@ public class Hour implements Node<Hour> {
     }
 
     @Override
-    public RistrettoPoint getAggregatedPoint() {
+    public RistrettoPoint point() {
         return aggregatedPoint;
     }
 

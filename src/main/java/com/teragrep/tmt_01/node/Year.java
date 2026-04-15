@@ -67,7 +67,7 @@ public class Year implements Node<Year> {
     }
 
     @Override
-    public RistrettoPoint getAggregatedPoint() {
+    public RistrettoPoint point() {
         return aggregatedPoint;
     }
 
@@ -77,10 +77,10 @@ public class Year implements Node<Year> {
         System.arraycopy(months, 0, newMonths, 0, monthsPerYear);
         final int monthIndex = change.monthIndex();
         newMonths[monthIndex] = months[monthIndex].applyChange(change);
-        return new Year(newMonths, aggregatedPoint.add(change.getPayload()));
+        return new Year(newMonths, aggregatedPoint.add(change.pointDelta()));
     }
 
-    public Month getMonth(final int index) {
+    public Month month(final int index) {
         return months[index];
     }
 

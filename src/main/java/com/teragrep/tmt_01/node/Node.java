@@ -50,7 +50,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 
 public interface Node<T> {
 
-    public abstract RistrettoPoint getAggregatedPoint();
+    public abstract RistrettoPoint point();
 
     public abstract T applyChange(Change change);
 }

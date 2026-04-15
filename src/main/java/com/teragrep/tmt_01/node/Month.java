@@ -67,7 +67,7 @@ public class Month implements Node<Month> {
     }
 
     @Override
-    public RistrettoPoint getAggregatedPoint() {
+    public RistrettoPoint point() {
         return aggregatedPoint;
     }
 
@@ -78,11 +78,11 @@ public class Month implements Node<Month> {
         final int dayIndex = change.dayIndex();
         newDays[dayIndex] = days[dayIndex].applyChange(change);
 
-        return new Month(newDays, aggregatedPoint.add(change.getPayload()));
+        return new Month(newDays, aggregatedPoint.add(change.pointDelta()));
 
     }
 
-    public Day getDay(final int index) {
+    public Day day(final int index) {
         return days[index];
     }
 

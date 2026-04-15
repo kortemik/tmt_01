@@ -67,7 +67,7 @@ public class TimePartitionedMonoidTreeAggregationTest {
         tree.processChange(new Change(1L, Instant.EPOCH, payload));
 
         // only one value in, root should be the same as payload
-        assertArrayEquals(payload.toBytes(), tree.root().getAggregatedPoint().toBytes());
+        assertArrayEquals(payload.toBytes(), tree.root().point().toBytes());
 
         RistrettoPoint otherPayload = testPointFactory.deterministicPoint(2);
 
@@ -78,6 +78,6 @@ public class TimePartitionedMonoidTreeAggregationTest {
         // if seed 0, it results in zeroPoint and the test case will not work so this verifies that seed 0 was not used
         assertFalse(Arrays.equals(otherPayload.toBytes(), summarizedPayload.toBytes()));
 
-        assertArrayEquals(summarizedPayload.toBytes(), tree.root().getAggregatedPoint().toBytes());
+        assertArrayEquals(summarizedPayload.toBytes(), tree.root().point().toBytes());
     }
 }
