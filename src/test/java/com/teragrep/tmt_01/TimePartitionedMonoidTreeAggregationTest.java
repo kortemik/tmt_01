@@ -54,7 +54,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class TimeSeriesMerkleTreeAggregationTest {
+public class TimePartitionedMonoidTreeAggregationTest {
 
     @Test
     void testRootAggregation() {
@@ -63,7 +63,7 @@ public class TimeSeriesMerkleTreeAggregationTest {
 
         RistrettoPoint payload = testPointFactory.deterministicPoint(1);
 
-        TimeSeriesMerkleTree tree = new TimeSeriesMerkleTreeImpl();
+        TimePartitionedMonoidTree tree = new TimePartitionedMonoidTreeImpl();
         tree.processChange(new Change(1L, Instant.EPOCH, payload));
 
         // only one value in, root should be the same as payload

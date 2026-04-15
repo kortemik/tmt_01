@@ -43,14 +43,60 @@
  * Teragrep, the applicable Commercial License may apply to this file if you as
  * a licensee so wish it.
  */
-package com.teragrep.tmt_01.node;
+package com.teragrep.tmt_01;
 
-import com.teragrep.tmt_01.Change;
-import com.teragrep.tmt_01.RistrettoPoint;
+import com.teragrep.tmt_01.node.Root;
 
-public interface Merkle<T> {
+import java.util.concurrent.atomic.AtomicReference;
 
-    public abstract RistrettoPoint getAggregatedPoint();
+public class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoidTree {
 
-    public abstract T applyChange(Change change);
+    private final RistrettoPoint zeroPoint;
+    private final AtomicReference<Root> activeRoot;
+
+    public TimePartitionedMonoidTreeImpl() {
+        this(new LazysodiumRistrettoPoint());
+    }
+
+    public TimePartitionedMonoidTreeImpl(final RistrettoPoint zeroPoint) {
+        this.zeroPoint = zeroPoint;
+        final Root emptyRoot = new Root(this.zeroPoint);
+        this.activeRoot = new AtomicReference<>(emptyRoot);
+    }
+
+    @Override
+    public Root processChange(final Change change) {
+        final Root rv;
+        while (true) {
+            // snapshot root
+            final Root oldRoot = activeRoot.get();
+
+            // check if change in WAL is already applied
+            if (change.version() <= oldRoot.getMaxVersion()) {
+                rv = oldRoot;
+                break;
+            }
+            else {
+                final Root newRoot = oldRoot.applyChange(change);
+
+                if (activeRoot.compareAndSet(oldRoot, newRoot)) {
+                    rv = newRoot; // CAS successful
+                    break;
+                }
+            }
+
+            // retry
+        }
+        return rv;
+    }
+
+    @Override
+    public Root root() {
+        return activeRoot.get();
+    }
+
+    @Override
+    public RistrettoPoint zeroPoint() {
+        return zeroPoint;
+    }
 }

@@ -43,60 +43,14 @@
  * Teragrep, the applicable Commercial License may apply to this file if you as
  * a licensee so wish it.
  */
-package com.teragrep.tmt_01;
+package com.teragrep.tmt_01.node;
 
-import com.teragrep.tmt_01.node.Root;
+import com.teragrep.tmt_01.Change;
+import com.teragrep.tmt_01.RistrettoPoint;
 
-import java.util.concurrent.atomic.AtomicReference;
+public interface Node<T> {
 
-public class TimeSeriesMerkleTreeImpl implements TimeSeriesMerkleTree {
+    public abstract RistrettoPoint getAggregatedPoint();
 
-    private final RistrettoPoint zeroPoint;
-    private final AtomicReference<Root> activeRoot;
-
-    public TimeSeriesMerkleTreeImpl() {
-        this(new LazysodiumRistrettoPoint());
-    }
-
-    public TimeSeriesMerkleTreeImpl(final RistrettoPoint zeroPoint) {
-        this.zeroPoint = zeroPoint;
-        final Root emptyRoot = new Root(this.zeroPoint);
-        this.activeRoot = new AtomicReference<>(emptyRoot);
-    }
-
-    @Override
-    public Root processChange(final Change change) {
-        final Root rv;
-        while (true) {
-            // snapshot root
-            final Root oldRoot = activeRoot.get();
-
-            // check if change in WAL is already applied
-            if (change.version() <= oldRoot.getMaxVersion()) {
-                rv = oldRoot;
-                break;
-            }
-            else {
-                final Root newRoot = oldRoot.applyChange(change);
-
-                if (activeRoot.compareAndSet(oldRoot, newRoot)) {
-                    rv = newRoot; // CAS successful
-                    break;
-                }
-            }
-
-            // retry
-        }
-        return rv;
-    }
-
-    @Override
-    public Root root() {
-        return activeRoot.get();
-    }
-
-    @Override
-    public RistrettoPoint zeroPoint() {
-        return zeroPoint;
-    }
+    public abstract T applyChange(Change change);
 }

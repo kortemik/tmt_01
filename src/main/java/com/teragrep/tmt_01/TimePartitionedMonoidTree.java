@@ -47,7 +47,7 @@ package com.teragrep.tmt_01;
 
 import com.teragrep.tmt_01.node.Root;
 
-public interface TimeSeriesMerkleTree {
+public interface TimePartitionedMonoidTree {
 
     public abstract Root processChange(Change change);
 

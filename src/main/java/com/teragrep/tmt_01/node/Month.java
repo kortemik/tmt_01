@@ -50,7 +50,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 
 import java.util.Arrays;
 
-public class Month implements Merkle<Month> {
+public class Month implements Node<Month> {
 
     private static final int maxDaysPerMonth = 31;
 

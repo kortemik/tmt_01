@@ -50,7 +50,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 
 import java.util.Arrays;
 
-public class Year implements Merkle<Year> {
+public class Year implements Node<Year> {
 
     private static final int monthsPerYear = 12;
 

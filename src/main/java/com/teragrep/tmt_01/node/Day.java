@@ -49,7 +49,7 @@ import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.RistrettoPoint;
 import java.util.Arrays;
 
-public class Day implements Merkle<Day> {
+public class Day implements Node<Day> {
 
     private static final int hoursPerDay = 24;
 

@@ -48,7 +48,7 @@ package com.teragrep.tmt_01.node;
 import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.RistrettoPoint;
 
-public class Hour implements Merkle<Hour> {
+public class Hour implements Node<Hour> {
 
     private final RistrettoPoint aggregatedPoint;
 
