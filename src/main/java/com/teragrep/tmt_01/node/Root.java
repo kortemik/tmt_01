@@ -58,7 +58,6 @@ public class Root implements Merkle<Root> {
     private final Year[] yearValues;
     private final RistrettoPoint aggregatedPoint;
 
-    // stub ctor
     public Root(final RistrettoPoint zeroPoint) {
         this(new int[0], new Year[0], zeroPoint, 0L, zeroPoint);
     }
