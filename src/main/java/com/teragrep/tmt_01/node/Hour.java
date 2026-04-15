@@ -52,7 +52,7 @@ public class Hour implements Merkle<Hour> {
 
     private final RistrettoPoint aggregatedPoint;
 
-    public Hour(RistrettoPoint aggregatedPoint) {
+    public Hour(final RistrettoPoint aggregatedPoint) {
         this.aggregatedPoint = aggregatedPoint;
     }
 

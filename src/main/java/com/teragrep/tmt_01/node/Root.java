@@ -59,16 +59,16 @@ public class Root implements Merkle<Root> {
     private final RistrettoPoint aggregatedPoint;
 
     // stub ctor
-    public Root(RistrettoPoint zeroPoint) {
+    public Root(final RistrettoPoint zeroPoint) {
         this(new int[0], new Year[0], zeroPoint, 0L, zeroPoint);
     }
 
     public Root(
-            int[] yearKeys,
-            Year[] yearValues,
-            RistrettoPoint aggregatedPoint,
-            long maxVersion,
-            RistrettoPoint zeroPoint
+            final int[] yearKeys,
+            final Year[] yearValues,
+            final RistrettoPoint aggregatedPoint,
+            final long maxVersion,
+            final RistrettoPoint zeroPoint
     ) {
         this.yearKeys = yearKeys;
         this.yearValues = yearValues;
@@ -89,7 +89,7 @@ public class Root implements Merkle<Root> {
     @Override
     public Root applyChange(final Change change) {
 
-        int yearIndex = change.yearIndex();
+        final int yearIndex = change.yearIndex();
 
         // 1. Check if we are updating an existing year
         int insertPos = -1;
@@ -103,15 +103,15 @@ public class Root implements Merkle<Root> {
         final Root rv;
         if (insertPos != -1) {
             // update existing new
-            Year[] newYears = new Year[yearValues.length];
+            final Year[] newYears = new Year[yearValues.length];
             System.arraycopy(yearValues, 0, newYears, 0, yearValues.length);
             newYears[insertPos] = yearValues[insertPos].applyChange(change);
             rv = new Root(yearKeys, newYears, aggregatedPoint.add(change.getPayload()), change.version(), zeroPoint);
         }
         else {
             // new year to a new array
-            int[] newYearKeys = new int[yearKeys.length + 1];
-            Year[] newYearValues = new Year[yearValues.length + 1];
+            final int[] newYearKeys = new int[yearKeys.length + 1];
+            final Year[] newYearValues = new Year[yearValues.length + 1];
 
             System.arraycopy(yearKeys, 0, newYearKeys, 0, yearKeys.length);
             System.arraycopy(yearValues, 0, newYearValues, 0, yearValues.length);
@@ -131,7 +131,7 @@ public class Root implements Merkle<Root> {
         return rv;
     }
 
-    public Year getYear(int index) {
+    public Year getYear(final int index) {
         for (int i = 0; i < yearKeys.length; i++) {
             if (yearKeys[i] == index) {
                 return yearValues[i];

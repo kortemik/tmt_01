@@ -50,7 +50,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 
 public interface Merkle<T> {
 
-    RistrettoPoint getAggregatedPoint();
+    public abstract RistrettoPoint getAggregatedPoint();
 
-    T applyChange(Change change);
+    public abstract T applyChange(Change change);
 }

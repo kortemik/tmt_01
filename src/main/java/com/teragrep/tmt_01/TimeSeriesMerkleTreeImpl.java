@@ -58,18 +58,18 @@ public class TimeSeriesMerkleTreeImpl implements TimeSeriesMerkleTree {
         this(new LazysodiumRistrettoPoint());
     }
 
-    public TimeSeriesMerkleTreeImpl(RistrettoPoint zeroPoint) {
+    public TimeSeriesMerkleTreeImpl(final RistrettoPoint zeroPoint) {
         this.zeroPoint = zeroPoint;
         final Root emptyRoot = new Root(this.zeroPoint);
         this.activeRoot = new AtomicReference<>(emptyRoot);
     }
 
     @Override
-    public Root processChange(Change change) {
+    public Root processChange(final Change change) {
         final Root rv;
         while (true) {
             // snapshot root
-            Root oldRoot = activeRoot.get();
+            final Root oldRoot = activeRoot.get();
 
             // check if change in WAL is already applied
             if (change.version() <= oldRoot.getMaxVersion()) {
@@ -77,7 +77,7 @@ public class TimeSeriesMerkleTreeImpl implements TimeSeriesMerkleTree {
                 break;
             }
             else {
-                Root newRoot = oldRoot.applyChange(change);
+                final Root newRoot = oldRoot.applyChange(change);
 
                 if (activeRoot.compareAndSet(oldRoot, newRoot)) {
                     rv = newRoot; // CAS successful

@@ -61,22 +61,24 @@ public class LazysodiumRistrettoPoint implements RistrettoPoint {
         this(new LazySodiumJava(new SodiumJava()), new byte[Ristretto255.RISTRETTO255_BYTES]);
     }
 
-    public LazysodiumRistrettoPoint(LazySodium sodium, byte[] pointBytes) {
+    public LazysodiumRistrettoPoint(final LazySodium sodium, final byte[] pointBytes) {
         this.sodium = sodium;
         this.pointBytes = pointBytes;
     }
 
     @Override
-    public RistrettoPoint add(RistrettoPoint other) {
+    public RistrettoPoint add(final RistrettoPoint other) {
         if (pointBytes.length != Ristretto255.RISTRETTO255_BYTES) {
             throw new IllegalArgumentException("Ristretto255 points must be exactly 32 bytes.");
         }
 
-        byte[] result = new byte[Ristretto255.RISTRETTO255_BYTES];
-        boolean success = sodium.cryptoCoreRistretto255Add(result, this.pointBytes, other.toBytes());
+        final byte[] result = new byte[Ristretto255.RISTRETTO255_BYTES];
+        final boolean success = sodium.cryptoCoreRistretto255Add(result, this.pointBytes, other.toBytes());
 
-        if (!success)
+        if (!success) {
             throw new IllegalStateException("Libsodium point addition failed.");
+        }
+
         return new LazysodiumRistrettoPoint(sodium, result);
     }
 

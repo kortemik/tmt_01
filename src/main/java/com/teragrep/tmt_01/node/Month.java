@@ -52,18 +52,13 @@ import java.util.Arrays;
 
 public class Month implements Merkle<Month> {
 
+    private static final int maxDaysPerMonth = 31;
+
     private final Day[] days;
     private final RistrettoPoint aggregatedPoint;
 
-    public Month(RistrettoPoint zeroPoint) {
+    public Month(final RistrettoPoint zeroPoint) {
         this(newDaysArray(zeroPoint), zeroPoint);
-    }
-
-    private static Day[] newDaysArray(final RistrettoPoint zeroPoint) {
-        final Day[] newDays = new Day[31];
-        Day emptyDay = new Day(zeroPoint);
-        Arrays.fill(newDays, emptyDay);
-        return newDays;
     }
 
     public Month(final Day[] days, final RistrettoPoint aggregatedPoint) {
@@ -78,16 +73,23 @@ public class Month implements Merkle<Month> {
 
     @Override
     public Month applyChange(final Change change) {
-        final Day[] newDays = new Day[31];
-        System.arraycopy(days, 0, newDays, 0, 31);
-        int dayIndex = change.dayIndex();
+        final Day[] newDays = new Day[maxDaysPerMonth];
+        System.arraycopy(days, 0, newDays, 0, maxDaysPerMonth);
+        final int dayIndex = change.dayIndex();
         newDays[dayIndex] = days[dayIndex].applyChange(change);
 
         return new Month(newDays, aggregatedPoint.add(change.getPayload()));
 
     }
 
-    public Day getDay(int index) {
+    public Day getDay(final int index) {
         return days[index];
+    }
+
+    private static Day[] newDaysArray(final RistrettoPoint zeroPoint) {
+        final Day[] newDays = new Day[maxDaysPerMonth];
+        final Day emptyDay = new Day(zeroPoint);
+        Arrays.fill(newDays, emptyDay);
+        return newDays;
     }
 }

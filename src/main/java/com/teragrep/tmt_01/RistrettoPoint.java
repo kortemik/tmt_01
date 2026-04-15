@@ -47,7 +47,7 @@ package com.teragrep.tmt_01;
 
 public interface RistrettoPoint {
 
-    RistrettoPoint add(RistrettoPoint other);
+    public abstract RistrettoPoint add(RistrettoPoint other);
 
-    byte[] toBytes();
+    public abstract byte[] toBytes();
 }

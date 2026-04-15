@@ -55,11 +55,11 @@ public class Change {
     private final RistrettoPoint payload;
     private final ZonedDateTime zdt;
 
-    public Change(long version, Instant targetHour, RistrettoPoint payload) {
+    public Change(final long version, final Instant targetHour, final RistrettoPoint payload) {
         this(version, payload, targetHour.atZone(ZoneOffset.UTC));
     }
 
-    private Change(long version, RistrettoPoint payload, ZonedDateTime zdt) {
+    private Change(final long version, final RistrettoPoint payload, final ZonedDateTime zdt) {
         this.version = version;
         this.payload = payload;
         this.zdt = zdt;

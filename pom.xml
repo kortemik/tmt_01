@@ -317,7 +317,6 @@
         <version>3.5.0</version>
         <executions>
           <!-- These are all errors that will fail the build if triggered -->
-          <!--
           <execution>
             <id>scan-errors</id>
             <goals>
@@ -393,9 +392,7 @@
               </checkstyleRules>
             </configuration>
           </execution>
-          -->
           <!-- These are warnings but will not fail the build -->
-          <!--
           <execution>
             <id>scan-warnings</id>
             <goals>
@@ -524,7 +521,6 @@
               </checkstyleRules>
             </configuration>
           </execution>
-          -->
         </executions>
       </plugin>
     </plugins>

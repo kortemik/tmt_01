@@ -49,10 +49,10 @@ import com.teragrep.tmt_01.node.Root;
 
 public interface TimeSeriesMerkleTree {
 
-    Root processChange(Change change);
+    public abstract Root processChange(Change change);
 
-    Root root();
+    public abstract Root root();
 
-    RistrettoPoint zeroPoint();
+    public abstract RistrettoPoint zeroPoint();
 
 }

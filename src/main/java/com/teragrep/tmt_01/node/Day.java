@@ -51,18 +51,13 @@ import java.util.Arrays;
 
 public class Day implements Merkle<Day> {
 
+    private static final int hoursPerDay = 24;
+
     private final Hour[] hours;
     private final RistrettoPoint aggregatedPoint;
 
-    public Day(RistrettoPoint zeroPoint) {
+    public Day(final RistrettoPoint zeroPoint) {
         this(newHoursArray(zeroPoint), zeroPoint);
-    }
-
-    private static Hour[] newHoursArray(RistrettoPoint zeroPoint) {
-        Hour[] newHours = new Hour[24];
-        Hour emptyHour = new Hour(zeroPoint);
-        Arrays.fill(newHours, emptyHour);
-        return newHours;
     }
 
     public Day(final Hour[] hours, final RistrettoPoint aggregatedPoint) {
@@ -70,10 +65,10 @@ public class Day implements Merkle<Day> {
         this.aggregatedPoint = aggregatedPoint;
     }
 
-    public Day applyChange(Change change) {
-        Hour[] newHours = new Hour[24];
-        System.arraycopy(this.hours, 0, newHours, 0, 24);
-        int hourIndex = change.hourIndex();
+    public Day applyChange(final Change change) {
+        final Hour[] newHours = new Hour[hoursPerDay];
+        System.arraycopy(this.hours, 0, newHours, 0, hoursPerDay);
+        final int hourIndex = change.hourIndex();
         newHours[hourIndex] = new Hour(hours[hourIndex].getAggregatedPoint().add(change.getPayload()));
 
         return new Day(newHours, aggregatedPoint.add(change.getPayload()));
@@ -84,7 +79,14 @@ public class Day implements Merkle<Day> {
         return aggregatedPoint;
     }
 
-    public Hour getHour(int index) {
+    public Hour getHour(final int index) {
         return hours[index];
+    }
+
+    private static Hour[] newHoursArray(final RistrettoPoint zeroPoint) {
+        final Hour[] newHours = new Hour[hoursPerDay];
+        final Hour emptyHour = new Hour(zeroPoint);
+        Arrays.fill(newHours, emptyHour);
+        return newHours;
     }
 }

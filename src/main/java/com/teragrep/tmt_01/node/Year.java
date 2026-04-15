@@ -52,21 +52,16 @@ import java.util.Arrays;
 
 public class Year implements Merkle<Year> {
 
+    private static final int monthsPerYear = 12;
+
     private final Month[] months;
     private final RistrettoPoint aggregatedPoint;
 
-    public Year(RistrettoPoint zeroPoint) {
+    public Year(final RistrettoPoint zeroPoint) {
         this(newMonthsArray(zeroPoint), zeroPoint);
     }
 
-    private static Month[] newMonthsArray(final RistrettoPoint zeroPoint) {
-        Month[] newMonths = new Month[12];
-        Month emptyMonth = new Month(zeroPoint);
-        Arrays.fill(newMonths, emptyMonth);
-        return newMonths;
-    }
-
-    public Year(Month[] months, RistrettoPoint aggregatedPoint) {
+    public Year(final Month[] months, final RistrettoPoint aggregatedPoint) {
         this.months = months;
         this.aggregatedPoint = aggregatedPoint;
     }
@@ -78,14 +73,21 @@ public class Year implements Merkle<Year> {
 
     @Override
     public Year applyChange(final Change change) {
-        Month[] newMonths = new Month[12];
-        System.arraycopy(months, 0, newMonths, 0, 12);
-        int monthIndex = change.monthIndex();
+        final Month[] newMonths = new Month[monthsPerYear];
+        System.arraycopy(months, 0, newMonths, 0, monthsPerYear);
+        final int monthIndex = change.monthIndex();
         newMonths[monthIndex] = months[monthIndex].applyChange(change);
         return new Year(newMonths, aggregatedPoint.add(change.getPayload()));
     }
 
-    public Month getMonth(int index) {
+    public Month getMonth(final int index) {
         return months[index];
+    }
+
+    private static Month[] newMonthsArray(final RistrettoPoint zeroPoint) {
+        final Month[] newMonths = new Month[monthsPerYear];
+        final Month emptyMonth = new Month(zeroPoint);
+        Arrays.fill(newMonths, emptyMonth);
+        return newMonths;
     }
 }
