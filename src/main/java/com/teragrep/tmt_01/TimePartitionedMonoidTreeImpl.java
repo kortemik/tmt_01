@@ -58,7 +58,7 @@ public class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoidTree 
         this(new LazysodiumRistrettoPoint());
     }
 
-    public TimePartitionedMonoidTreeImpl(final RistrettoPoint zeroPoint) {
+    private TimePartitionedMonoidTreeImpl(final RistrettoPoint zeroPoint) {
         this(zeroPoint, new AtomicReference<>(new Root(zeroPoint)));
     }
 
