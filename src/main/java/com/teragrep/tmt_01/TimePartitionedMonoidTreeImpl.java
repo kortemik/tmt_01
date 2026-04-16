@@ -59,9 +59,12 @@ public class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoidTree 
     }
 
     public TimePartitionedMonoidTreeImpl(final RistrettoPoint zeroPoint) {
+        this(zeroPoint, new AtomicReference<>(new Root(zeroPoint)));
+    }
+
+    private TimePartitionedMonoidTreeImpl(final RistrettoPoint zeroPoint, final AtomicReference<Root> initialRoot) {
         this.zeroPoint = zeroPoint;
-        final Root emptyRoot = new Root(this.zeroPoint);
-        this.activeRoot = new AtomicReference<>(emptyRoot);
+        this.activeRoot = initialRoot;
     }
 
     @Override
