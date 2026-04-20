@@ -43,68 +43,38 @@
  * Teragrep, the applicable Commercial License may apply to this file if you as
  * a licensee so wish it.
  */
-package com.teragrep.tmt_01.node;
+package com.teragrep.tmt_01;
 
-import com.teragrep.tmt_01.Change;
-import com.teragrep.tmt_01.RistrettoPoint;
+import com.goterl.lazysodium.LazySodiumJava;
+import com.goterl.lazysodium.SodiumJava;
+import com.goterl.lazysodium.interfaces.Ristretto255;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Objects;
+public class LazysodiumRistrettoPointTest {
 
-public class Month implements Node<Month> {
+    @Test
+    public void testZeroPointCtor() {
+        RistrettoPoint ristrettoPoint = new LazysodiumRistrettoPoint();
 
-    private static final int maxDaysPerMonth = 31;
+        byte[] result = new byte[Ristretto255.RISTRETTO255_BYTES];
 
-    private final Day[] days;
-    private final RistrettoPoint aggregatedPoint;
+        Assertions.assertArrayEquals(result, ristrettoPoint.toBytes());
 
-    public Month(final RistrettoPoint zeroPoint) {
-        this(newDaysArray(zeroPoint), zeroPoint);
+        // self-add, zero+zero=zero
+        ristrettoPoint.add(ristrettoPoint);
+
+        Assertions.assertArrayEquals(result, ristrettoPoint.toBytes());
     }
 
-    public Month(final Day[] days, final RistrettoPoint aggregatedPoint) {
-        this.days = days;
-        this.aggregatedPoint = aggregatedPoint;
+    @Test
+    public void testInvalidThrows() {
+        LazySodiumJava lazySodiumJava = new LazySodiumJava(new SodiumJava());
+        byte[] invalidByteCount = new byte[2];
+        RistrettoPoint invalidPoint = new LazysodiumRistrettoPoint(lazySodiumJava, invalidByteCount);
+
+        RistrettoPoint validPoint = new LazysodiumRistrettoPoint();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> validPoint.add(invalidPoint));
     }
-
-    @Override
-    public RistrettoPoint point() {
-        return aggregatedPoint;
-    }
-
-    @Override
-    public Month applyChange(final Change change) {
-        final Day[] newDays = new Day[maxDaysPerMonth];
-        System.arraycopy(days, 0, newDays, 0, maxDaysPerMonth);
-        final int dayIndex = change.dayIndex();
-        newDays[dayIndex] = days[dayIndex].applyChange(change);
-
-        return new Month(newDays, aggregatedPoint.add(change.pointDelta()));
-
-    }
-
-    public Day day(final int index) {
-        return days[index];
-    }
-
-    private static Day[] newDaysArray(final RistrettoPoint zeroPoint) {
-        final Day[] newDays = new Day[maxDaysPerMonth];
-        final Day emptyDay = new Day(zeroPoint);
-        Arrays.fill(newDays, emptyDay);
-        return newDays;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
-        final Month month = (Month) o;
-        return Objects.deepEquals(days, month.days) && Objects.equals(aggregatedPoint, month.aggregatedPoint);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(Arrays.hashCode(days), aggregatedPoint);
-    }
-
 }

@@ -48,6 +48,7 @@ package com.teragrep.tmt_01;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 public class ChangeImpl implements Change {
 
@@ -99,4 +100,19 @@ public class ChangeImpl implements Change {
     public ZonedDateTime zonedDateTime() {
         return zonedDateTime;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        final ChangeImpl change = (ChangeImpl) o;
+        return version == change.version && Objects.equals(pointDelta, change.pointDelta)
+                && Objects.equals(zonedDateTime, change.zonedDateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(version, pointDelta, zonedDateTime);
+    }
+
 }

@@ -48,6 +48,7 @@ package com.teragrep.tmt_01.node;
 import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.RistrettoPoint;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Day implements Node<Day> {
 
@@ -89,4 +90,18 @@ public class Day implements Node<Day> {
         Arrays.fill(newHours, emptyHour);
         return newHours;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        final Day day = (Day) o;
+        return Objects.deepEquals(hours, day.hours) && Objects.equals(aggregatedPoint, day.aggregatedPoint);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.hashCode(hours), aggregatedPoint);
+    }
+
 }

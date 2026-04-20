@@ -43,68 +43,72 @@
  * Teragrep, the applicable Commercial License may apply to this file if you as
  * a licensee so wish it.
  */
-package com.teragrep.tmt_01.node;
+package com.teragrep.tmt_01;
 
-import com.teragrep.tmt_01.Change;
-import com.teragrep.tmt_01.RistrettoPoint;
+import java.time.ZonedDateTime;
 
-import java.util.Arrays;
-import java.util.Objects;
+public class ChangeFake implements Change {
 
-public class Month implements Node<Month> {
+    private final long version;
+    private final RistrettoPoint pointDelta;
+    private final int yearIndex;
+    private final int monthIndex;
+    private final int dayIndex;
+    private final int hourIndex;
+    private final ZonedDateTime zonedDateTime;
 
-    private static final int maxDaysPerMonth = 31;
+    public ChangeFake(
+            final long version,
+            final RistrettoPoint pointDelta,
+            final int yearIndex,
+            final int monthIndex,
+            final int dayIndex,
+            final int hourIndex,
+            final ZonedDateTime zonedDateTime
+    ) {
 
-    private final Day[] days;
-    private final RistrettoPoint aggregatedPoint;
-
-    public Month(final RistrettoPoint zeroPoint) {
-        this(newDaysArray(zeroPoint), zeroPoint);
-    }
-
-    public Month(final Day[] days, final RistrettoPoint aggregatedPoint) {
-        this.days = days;
-        this.aggregatedPoint = aggregatedPoint;
-    }
-
-    @Override
-    public RistrettoPoint point() {
-        return aggregatedPoint;
-    }
-
-    @Override
-    public Month applyChange(final Change change) {
-        final Day[] newDays = new Day[maxDaysPerMonth];
-        System.arraycopy(days, 0, newDays, 0, maxDaysPerMonth);
-        final int dayIndex = change.dayIndex();
-        newDays[dayIndex] = days[dayIndex].applyChange(change);
-
-        return new Month(newDays, aggregatedPoint.add(change.pointDelta()));
-
-    }
-
-    public Day day(final int index) {
-        return days[index];
-    }
-
-    private static Day[] newDaysArray(final RistrettoPoint zeroPoint) {
-        final Day[] newDays = new Day[maxDaysPerMonth];
-        final Day emptyDay = new Day(zeroPoint);
-        Arrays.fill(newDays, emptyDay);
-        return newDays;
+        this.version = version;
+        this.pointDelta = pointDelta;
+        this.yearIndex = yearIndex;
+        this.monthIndex = monthIndex;
+        this.dayIndex = dayIndex;
+        this.hourIndex = hourIndex;
+        this.zonedDateTime = zonedDateTime;
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
-        final Month month = (Month) o;
-        return Objects.deepEquals(days, month.days) && Objects.equals(aggregatedPoint, month.aggregatedPoint);
+    public long version() {
+        return version;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(Arrays.hashCode(days), aggregatedPoint);
+    public RistrettoPoint pointDelta() {
+        return pointDelta;
+    }
+
+    @Override
+    public int yearIndex() {
+        return yearIndex;
+    }
+
+    @Override
+    public int monthIndex() {
+        return monthIndex;
+    }
+
+    @Override
+    public int dayIndex() {
+        return dayIndex;
+    }
+
+    @Override
+    public int hourIndex() {
+        return hourIndex;
+    }
+
+    @Override
+    public ZonedDateTime zonedDateTime() {
+        return zonedDateTime;
     }
 
 }

@@ -50,7 +50,9 @@ import com.goterl.lazysodium.LazySodiumJava;
 import com.goterl.lazysodium.SodiumJava;
 import com.goterl.lazysodium.interfaces.Ristretto255;
 
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Objects;
 
 public class LazysodiumRistrettoPoint implements RistrettoPoint {
 
@@ -95,4 +97,20 @@ public class LazysodiumRistrettoPoint implements RistrettoPoint {
     public String toString() {
         return Base64.getEncoder().encodeToString(pointBytes);
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        final LazysodiumRistrettoPoint that = (LazysodiumRistrettoPoint) o;
+        // sodium is not part of the object identity
+        return Objects.deepEquals(pointBytes, that.pointBytes);
+    }
+
+    @Override
+    public int hashCode() {
+        // sodium is not part of the object identity
+        return Arrays.hashCode(pointBytes);
+    }
+
 }

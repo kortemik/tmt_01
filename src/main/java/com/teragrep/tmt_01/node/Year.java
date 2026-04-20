@@ -49,6 +49,7 @@ import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.RistrettoPoint;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Year implements Node<Year> {
 
@@ -90,4 +91,18 @@ public class Year implements Node<Year> {
         Arrays.fill(newMonths, emptyMonth);
         return newMonths;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        final Year year = (Year) o;
+        return Objects.deepEquals(months, year.months) && Objects.equals(aggregatedPoint, year.aggregatedPoint);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.hashCode(months), aggregatedPoint);
+    }
+
 }

@@ -46,65 +46,46 @@
 package com.teragrep.tmt_01.node;
 
 import com.teragrep.tmt_01.Change;
+import com.teragrep.tmt_01.ChangeFake;
 import com.teragrep.tmt_01.RistrettoPoint;
+import com.teragrep.tmt_01.TestPointFactory;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
-public class Month implements Node<Month> {
+public class YearTest {
 
-    private static final int maxDaysPerMonth = 31;
+    @Test
+    public void testYear() {
+        TestPointFactory testPointFactory = new TestPointFactory();
 
-    private final Day[] days;
-    private final RistrettoPoint aggregatedPoint;
+        RistrettoPoint zeroPoint = testPointFactory.deterministicPoint(0);
 
-    public Month(final RistrettoPoint zeroPoint) {
-        this(newDaysArray(zeroPoint), zeroPoint);
+        RistrettoPoint onePoint = testPointFactory.deterministicPoint(1);
+
+        Change change = new ChangeFake(
+                0,
+                onePoint,
+                0,
+                1,
+                0,
+                0,
+                Instant.EPOCH.plus(32, ChronoUnit.DAYS).atZone(ZoneOffset.UTC)
+        );
+
+        Year year = new Year(zeroPoint);
+
+        Year newYear = year.applyChange(change);
+
+        // copy-on-write so original must not change
+        Assertions.assertEquals(year, new Year(zeroPoint));
+
+        Assertions.assertEquals(onePoint, newYear.point());
+        Assertions.assertEquals(onePoint, newYear.month(1).point());
+        Assertions.assertEquals(onePoint, newYear.month(1).day(0).point());
+        Assertions.assertEquals(onePoint, newYear.month(1).day(0).hour(0).point());
     }
-
-    public Month(final Day[] days, final RistrettoPoint aggregatedPoint) {
-        this.days = days;
-        this.aggregatedPoint = aggregatedPoint;
-    }
-
-    @Override
-    public RistrettoPoint point() {
-        return aggregatedPoint;
-    }
-
-    @Override
-    public Month applyChange(final Change change) {
-        final Day[] newDays = new Day[maxDaysPerMonth];
-        System.arraycopy(days, 0, newDays, 0, maxDaysPerMonth);
-        final int dayIndex = change.dayIndex();
-        newDays[dayIndex] = days[dayIndex].applyChange(change);
-
-        return new Month(newDays, aggregatedPoint.add(change.pointDelta()));
-
-    }
-
-    public Day day(final int index) {
-        return days[index];
-    }
-
-    private static Day[] newDaysArray(final RistrettoPoint zeroPoint) {
-        final Day[] newDays = new Day[maxDaysPerMonth];
-        final Day emptyDay = new Day(zeroPoint);
-        Arrays.fill(newDays, emptyDay);
-        return newDays;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
-        final Month month = (Month) o;
-        return Objects.deepEquals(days, month.days) && Objects.equals(aggregatedPoint, month.aggregatedPoint);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(Arrays.hashCode(days), aggregatedPoint);
-    }
-
 }

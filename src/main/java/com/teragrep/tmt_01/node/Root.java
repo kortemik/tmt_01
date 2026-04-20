@@ -48,6 +48,9 @@ package com.teragrep.tmt_01.node;
 import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.RistrettoPoint;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Root implements Node<Root> {
 
     private final RistrettoPoint zeroPoint;
@@ -142,4 +145,21 @@ public class Root implements Node<Root> {
     public int[] yearKeys() {
         return yearKeys.clone();
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        final Root root = (Root) o;
+        return version == root.version && Objects.equals(zeroPoint, root.zeroPoint) && Objects
+                .deepEquals(yearKeys, root.yearKeys) && Objects.deepEquals(yearValues, root.yearValues)
+                && Objects.equals(aggregatedPoint, root.aggregatedPoint);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects
+                .hash(zeroPoint, version, Arrays.hashCode(yearKeys), Arrays.hashCode(yearValues), aggregatedPoint);
+    }
+
 }

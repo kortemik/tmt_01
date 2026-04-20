@@ -43,41 +43,33 @@
  * Teragrep, the applicable Commercial License may apply to this file if you as
  * a licensee so wish it.
  */
-package com.teragrep.tmt_01;
+package com.teragrep.tmt_01.node;
 
+import com.teragrep.tmt_01.Change;
+import com.teragrep.tmt_01.ChangeFake;
+import com.teragrep.tmt_01.RistrettoPoint;
+import com.teragrep.tmt_01.TestPointFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
+import java.time.ZoneOffset;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-public class TimePartitionedMonoidTreeAggregationTest {
+public class HourTest {
 
     @Test
-    void testRootAggregation() {
-
+    void testHour() {
         TestPointFactory testPointFactory = new TestPointFactory();
 
-        RistrettoPoint payload = testPointFactory.deterministicPoint(1);
+        RistrettoPoint zeroPoint = testPointFactory.deterministicPoint(0);
 
-        TimePartitionedMonoidTree tree = new TimePartitionedMonoidTreeImpl();
-        tree.processChange(new ChangeImpl(1L, Instant.EPOCH, payload));
+        Hour hour = new Hour(zeroPoint);
 
-        // only one value in, root should be the same as payload
-        assertArrayEquals(payload.toBytes(), tree.root().point().toBytes());
+        RistrettoPoint onePoint = testPointFactory.deterministicPoint(1);
+        Change change = new ChangeFake(0, onePoint, 0, 0, 0, 0, Instant.EPOCH.atZone(ZoneOffset.UTC));
 
-        RistrettoPoint otherPayload = testPointFactory.deterministicPoint(2);
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> hour.applyChange(change));
 
-        tree.processChange(new ChangeImpl(2L, Instant.EPOCH.plus(1, ChronoUnit.DAYS), otherPayload));
-
-        RistrettoPoint summarizedPayload = payload.add(otherPayload);
-
-        // if seed 0, it results in zeroPoint and the test case will not work so this verifies that seed 0 was not used
-        assertFalse(Arrays.equals(otherPayload.toBytes(), summarizedPayload.toBytes()));
-
-        assertArrayEquals(summarizedPayload.toBytes(), tree.root().point().toBytes());
+        Assertions.assertEquals(hour, new Hour(zeroPoint));
     }
 }

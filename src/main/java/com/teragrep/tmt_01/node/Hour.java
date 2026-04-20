@@ -48,6 +48,8 @@ package com.teragrep.tmt_01.node;
 import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.RistrettoPoint;
 
+import java.util.Objects;
+
 public class Hour implements Node<Hour> {
 
     private final RistrettoPoint aggregatedPoint;
@@ -64,6 +66,19 @@ public class Hour implements Node<Hour> {
     @Override
     public Hour applyChange(final Change change) {
         throw new UnsupportedOperationException("Hour is a leaf node and does not support change additions.");
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass())
+            return false;
+        final Hour hour = (Hour) o;
+        return Objects.equals(aggregatedPoint, hour.aggregatedPoint);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(aggregatedPoint);
     }
 
 }
