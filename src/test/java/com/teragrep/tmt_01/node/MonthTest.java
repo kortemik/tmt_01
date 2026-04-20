@@ -49,7 +49,9 @@ import com.teragrep.tmt_01.Change;
 import com.teragrep.tmt_01.ChangeFake;
 import com.teragrep.tmt_01.RistrettoPoint;
 import com.teragrep.tmt_01.TestPointFactory;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -87,5 +89,11 @@ public final class MonthTest {
 
         Assertions.assertEquals(onePoint, newMonth.day(1).point());
         Assertions.assertEquals(onePoint, newMonth.day(1).hour(0).point());
+    }
+
+    @Test
+    @DisplayName("equalsVerifier test")
+    void equalsVerifierTest() {
+        EqualsVerifier.forClass(Month.class).verify();
     }
 }

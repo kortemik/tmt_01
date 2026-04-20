@@ -45,6 +45,9 @@
  */
 package com.teragrep.tmt_01;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -79,5 +82,12 @@ public final class TimePartitionedMonoidTreeTest {
         assertFalse(Arrays.equals(otherPayload.toBytes(), summarizedPayload.toBytes()));
 
         assertArrayEquals(summarizedPayload.toBytes(), tree.root().point().toBytes());
+    }
+
+    @Test
+    @DisplayName("equalsVerifier test")
+    @Disabled("TimePartitionedMonoidTreeImpl uses AtomicReference that does not account object held")
+    void equalsVerifierTest() {
+        EqualsVerifier.forClass(TimePartitionedMonoidTreeImpl.class).verify();
     }
 }

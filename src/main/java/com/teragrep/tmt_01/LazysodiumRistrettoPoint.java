@@ -57,7 +57,8 @@ import java.util.Objects;
 public final class LazysodiumRistrettoPoint implements RistrettoPoint {
 
     private final byte[] pointBytes;
-    private final LazySodium sodium;
+    // sodium is not part of the object identity therefore transient
+    private final transient LazySodium sodium;
 
     public LazysodiumRistrettoPoint() {
         this(new LazySodiumJava(new SodiumJava()), new byte[Ristretto255.RISTRETTO255_BYTES]);
@@ -100,8 +101,9 @@ public final class LazysodiumRistrettoPoint implements RistrettoPoint {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         final LazysodiumRistrettoPoint that = (LazysodiumRistrettoPoint) o;
         // sodium is not part of the object identity
         return Objects.deepEquals(pointBytes, that.pointBytes);
@@ -109,7 +111,6 @@ public final class LazysodiumRistrettoPoint implements RistrettoPoint {
 
     @Override
     public int hashCode() {
-        // sodium is not part of the object identity
         return Arrays.hashCode(pointBytes);
     }
 

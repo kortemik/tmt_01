@@ -102,4 +102,5 @@ public final class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoi
     public RistrettoPoint zeroPoint() {
         return zeroPoint;
     }
+
 }

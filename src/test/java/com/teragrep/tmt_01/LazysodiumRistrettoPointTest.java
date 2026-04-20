@@ -48,7 +48,9 @@ package com.teragrep.tmt_01;
 import com.goterl.lazysodium.LazySodiumJava;
 import com.goterl.lazysodium.SodiumJava;
 import com.goterl.lazysodium.interfaces.Ristretto255;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public final class LazysodiumRistrettoPointTest {
@@ -76,5 +78,11 @@ public final class LazysodiumRistrettoPointTest {
         RistrettoPoint validPoint = new LazysodiumRistrettoPoint();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> validPoint.add(invalidPoint));
+    }
+
+    @Test
+    @DisplayName("equalsVerifier test")
+    void equalsVerifierTest() {
+        EqualsVerifier.forClass(LazysodiumRistrettoPoint.class).verify();
     }
 }

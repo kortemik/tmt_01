@@ -94,8 +94,9 @@ public final class Year implements Node<Year> {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         final Year year = (Year) o;
         return Objects.deepEquals(months, year.months) && Objects.equals(aggregatedPoint, year.aggregatedPoint);
     }

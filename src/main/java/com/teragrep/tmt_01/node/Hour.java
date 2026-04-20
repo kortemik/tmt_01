@@ -70,8 +70,9 @@ public final class Hour implements Node<Hour> {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         final Hour hour = (Hour) o;
         return Objects.equals(aggregatedPoint, hour.aggregatedPoint);
     }

@@ -93,8 +93,9 @@ public final class Day implements Node<Day> {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         final Day day = (Day) o;
         return Objects.deepEquals(hours, day.hours) && Objects.equals(aggregatedPoint, day.aggregatedPoint);
     }

@@ -96,8 +96,9 @@ public final class Month implements Node<Month> {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         final Month month = (Month) o;
         return Objects.deepEquals(days, month.days) && Objects.equals(aggregatedPoint, month.aggregatedPoint);
     }

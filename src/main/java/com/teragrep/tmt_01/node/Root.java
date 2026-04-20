@@ -148,8 +148,9 @@ public final class Root implements Node<Root> {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         final Root root = (Root) o;
         return version == root.version && Objects.equals(zeroPoint, root.zeroPoint) && Objects
                 .deepEquals(yearKeys, root.yearKeys) && Objects.deepEquals(yearValues, root.yearValues)

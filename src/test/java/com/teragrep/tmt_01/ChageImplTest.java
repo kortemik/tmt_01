@@ -45,7 +45,9 @@
  */
 package com.teragrep.tmt_01;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -67,5 +69,11 @@ public final class ChageImplTest {
         Assertions.assertEquals(0, change.monthIndex());
         Assertions.assertEquals(1970, change.yearIndex());
         Assertions.assertEquals(Instant.EPOCH.atZone(ZoneOffset.UTC), change.zonedDateTime());
+    }
+
+    @Test
+    @DisplayName("equalsVerifier test")
+    void equalsVerifierTest() {
+        EqualsVerifier.forClass(ChangeImpl.class).verify();
     }
 }
