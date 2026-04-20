@@ -51,7 +51,7 @@ import com.goterl.lazysodium.interfaces.Ristretto255;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class LazysodiumRistrettoPointTest {
+public final class LazysodiumRistrettoPointTest {
 
     @Test
     public void testZeroPointCtor() {

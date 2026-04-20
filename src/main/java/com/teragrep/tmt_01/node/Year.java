@@ -51,7 +51,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Year implements Node<Year> {
+public final class Year implements Node<Year> {
 
     private static final int monthsPerYear = 12;
 

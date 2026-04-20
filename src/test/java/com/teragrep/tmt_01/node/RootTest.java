@@ -55,7 +55,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
-public class RootTest {
+public final class RootTest {
 
     @Test
     public void testRoot() {

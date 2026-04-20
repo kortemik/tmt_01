@@ -47,7 +47,7 @@ package com.teragrep.tmt_01;
 
 import java.time.ZonedDateTime;
 
-public class ChangeFake implements Change {
+public final class ChangeFake implements Change {
 
     private final long version;
     private final RistrettoPoint pointDelta;

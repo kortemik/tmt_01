@@ -51,7 +51,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Root implements Node<Root> {
+public final class Root implements Node<Root> {
 
     private final RistrettoPoint zeroPoint;
 

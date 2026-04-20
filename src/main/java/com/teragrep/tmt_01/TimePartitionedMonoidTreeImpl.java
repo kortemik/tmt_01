@@ -49,7 +49,7 @@ import com.teragrep.tmt_01.node.Root;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoidTree {
+public final class TimePartitionedMonoidTreeImpl implements TimePartitionedMonoidTree {
 
     private final RistrettoPoint zeroPoint;
     private final AtomicReference<Root> activeRoot;

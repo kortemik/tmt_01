@@ -50,7 +50,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Day implements Node<Day> {
+public final class Day implements Node<Day> {
 
     private static final int hoursPerDay = 24;
 

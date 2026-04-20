@@ -51,7 +51,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Month implements Node<Month> {
+public final class Month implements Node<Month> {
 
     private static final int maxDaysPerMonth = 31;
 

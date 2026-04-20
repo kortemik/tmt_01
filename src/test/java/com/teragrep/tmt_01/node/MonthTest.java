@@ -56,7 +56,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-public class MonthTest {
+public final class MonthTest {
 
     @Test
     public void testMonth() {

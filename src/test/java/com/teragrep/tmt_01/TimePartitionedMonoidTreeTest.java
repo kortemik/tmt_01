@@ -54,7 +54,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class TimePartitionedMonoidTreeTest {
+public final class TimePartitionedMonoidTreeTest {
 
     @Test
     void testRootAggregation() {

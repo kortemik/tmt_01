@@ -50,7 +50,7 @@ import com.teragrep.tmt_01.RistrettoPoint;
 
 import java.util.Objects;
 
-public class Hour implements Node<Hour> {
+public final class Hour implements Node<Hour> {
 
     private final RistrettoPoint aggregatedPoint;
 

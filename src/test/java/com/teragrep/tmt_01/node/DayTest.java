@@ -57,7 +57,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
-public class DayTest {
+public final class DayTest {
 
     @Test
     public void testDay() {

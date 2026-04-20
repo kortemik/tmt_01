@@ -51,7 +51,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
-public class ChageImplTest {
+public final class ChageImplTest {
 
     @Test
     public void testChageImpl() {

@@ -51,7 +51,7 @@ import com.goterl.lazysodium.interfaces.Ristretto255;
 
 import java.nio.ByteBuffer;
 
-public class TestPointFactory {
+public final class TestPointFactory {
 
     private final LazySodiumJava lazySodiumJava;
 

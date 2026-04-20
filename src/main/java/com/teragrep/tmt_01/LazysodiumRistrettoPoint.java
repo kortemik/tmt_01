@@ -54,7 +54,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
-public class LazysodiumRistrettoPoint implements RistrettoPoint {
+public final class LazysodiumRistrettoPoint implements RistrettoPoint {
 
     private final byte[] pointBytes;
     private final LazySodium sodium;

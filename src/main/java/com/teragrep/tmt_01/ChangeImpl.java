@@ -50,7 +50,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-public class ChangeImpl implements Change {
+public final class ChangeImpl implements Change {
 
     private final long version;
     private final RistrettoPoint pointDelta;
